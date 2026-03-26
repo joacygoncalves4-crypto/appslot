@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0014">
+  <title>RTP Sinais</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ==================== PARTICLES BACKGROUND ==================== -->
+  <canvas id="particlesCanvas"></canvas>
+
+  <!-- ==================== MODAL VERIFICACAO DE IDADE ==================== -->
+  <div class="age-overlay" id="ageModal">
+    <div class="age-card">
+      <div class="age-glow"></div>
+      <div class="age-shield">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <span>18+</span>
+      </div>
+      <h2>Acesso Restrito</h2>
+      <p>Este conteudo e destinado exclusivamente para maiores de 18 anos. Confirme sua idade para continuar.</p>
+      <div class="age-actions">
+        <button class="age-btn age-btn-no" data-age-action="no">
+          <span>SAIR</span>
+        </button>
+        <button class="age-btn age-btn-yes" data-age-action="yes">
+          <span>TENHO 18+</span>
+          <div class="btn-shine"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+        </div>
+        <span class="brand-name" id="headerSiteName">MINHA MARCA</span>
+      </div>
+      <a href="#" class="header-cta" id="btnWhatsappGroup">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492l4.624-1.467A11.96 11.96 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75c-2.15 0-4.168-.672-5.833-1.94l-.417-.312-2.738.87.91-2.655-.344-.435A9.724 9.724 0 012.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75z"/>
+        </svg>
+        GRUPO VIP
+      </a>
+    </div>
+  </header>
+
+  <!-- ==================== LIVE TICKER ==================== -->
+  <div class="live-ticker">
+    <div class="ticker-badge">
+      <span class="ticker-dot"></span>
+      AO VIVO
+    </div>
+    <div class="ticker-text" id="tickerText">
+      <span>Carregando sinais...</span>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div class="toast" id="toastNotification">
+    <div class="toast-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M16 8l-8 8M8 8l8 8" stroke="none"/>
+        <path d="M12 6v6l4 2"/>
+      </svg>
+    </div>
+    <div class="toast-body">
+      <div class="toast-label">Sinal Confirmado</div>
+      <div class="toast-msg" id="toastContent"></div>
+    </div>
+    <button class="toast-close" id="toastClose">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="toast-progress" id="toastProgress"></div>
+  </div>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="main">
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-value" id="statOnline">1.847</span>
+        <span class="stat-label">Online</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-value" id="statSignals">324</span>
+        <span class="stat-label">Sinais Hoje</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-value stat-highlight" id="statWins">89%</span>
+        <span class="stat-label">Acertos</span>
+      </div>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-category="pgsoft">
+        <span class="tab-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </span>
+        PG Soft
+        <span class="tab-count">127</span>
+      </button>
+      <button class="tab" data-category="pragmatic">
+        <span class="tab-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </span>
+        Pragmatic
+        <span class="tab-count">94</span>
+      </button>
+    </div>
+
+    <!-- PGsoft Section -->
+    <section class="section" id="section-pgsoft">
+      <div class="grid" id="grid-pgsoft"></div>
+    </section>
+
+    <!-- Pragmatic Section -->
+    <section class="section" id="section-pragmatic" style="display:none;">
+      <div class="grid" id="grid-pragmatic"></div>
+    </section>
+
+    <!-- Terms Section -->
+    <section class="section section-page" id="section-terms" style="display:none;">
+      <div class="page-card">
+        <h2>Termos e Condicoes</h2>
+        <div class="page-content">
+          <h3>1. Sobre os Servicos</h3>
+          <p>Este site oferece ferramentas de analise de RTP (Return to Player) para jogos de slots online. Os sinais gerados sao baseados em algoritmos estatisticos e tem carater recreativo.</p>
+          <h3>2. Publico-alvo</h3>
+          <p>Este servico e destinado exclusivamente para <strong>MAIORES DE 18 ANOS</strong>. Ao acessar este site, voce confirma que possui idade legal para participar de atividades relacionadas a jogos de azar em sua jurisdicao.</p>
+          <h3>3. Jogo Responsavel</h3>
+          <p>Incentivamos o jogo responsavel. Nao aposte mais do que pode perder. Se voce sente que esta desenvolvendo um problema com jogos de azar, procure ajuda profissional.</p>
+          <h3>4. Limitacao de Responsabilidade</h3>
+          <p>Os sinais e analises fornecidos neste site nao garantem ganhos financeiros. Resultados passados nao garantem resultados futuros. Toda decisao de aposta e de responsabilidade exclusiva do usuario.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Help Section -->
+    <section class="section section-page" id="section-help" style="display:none;">
+      <div class="page-card">
+        <h2>Central de Ajuda</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-q">Como usar os sinais?</div>
+            <p>Clique em qualquer jogo para abrir a plataforma. Use o botao "GERAR SINAL" para receber a analise. O sinal mostra o melhor momento para jogar.</p>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">O que e RTP?</div>
+            <p>RTP (Return to Player) e a porcentagem teorica de retorno ao jogador. Quanto maior o RTP, maiores sao as chances estatisticas de retorno.</p>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Com que frequencia os sinais atualizam?</div>
+            <p>Os sinais sao recalculados automaticamente a cada 10 minutos com base no algoritmo de analise.</p>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Precisa de suporte?</div>
+            <p>Entre em contato pelo nosso grupo VIP do WhatsApp clicando no botao no topo da pagina.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== GAME SCREEN (SIGNALS + PLATFORM) ==================== -->
+  <div class="game-screen" id="gameScreen">
+    <div class="game-screen-header">
+      <button class="gs-back" id="gameScreenBack">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </button>
+      <h3 class="gs-title" id="signalGameName">Nome do Jogo</h3>
+      <button class="gs-toggle" id="signalToggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17l-5-10-4 6-3-3"/></svg>
+      </button>
+    </div>
+
+    <div class="signal-panel" id="signalPanel">
+      <div class="signal-row">
+        <div class="signal-box signal-box-main">
+          <span class="signal-label">RTP</span>
+          <span class="signal-val" id="signalRTP">--</span>
+        </div>
+        <div class="signal-box">
+          <span class="signal-label">Normal</span>
+          <span class="signal-val" id="signalNormal">--</span>
+        </div>
+        <div class="signal-box">
+          <span class="signal-label">Turbo</span>
+          <span class="signal-val" id="signalTurbo">--</span>
+        </div>
+        <div class="signal-box">
+          <span class="signal-label">Acerto</span>
+          <span class="signal-val" id="signalAcerto">--</span>
+        </div>
+        <div class="signal-box">
+          <span class="signal-label">Valido</span>
+          <span class="signal-val" id="signalValidade">--:--</span>
+        </div>
+      </div>
+      <button class="btn-signal" id="generateSignalBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        GERAR SINAL
+      </button>
+    </div>
+
+    <iframe id="platformIframe" class="gs-iframe" src="about:blank" allow="fullscreen; payment; camera; microphone" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe>
+  </div>
+
+  <!-- ==================== BOTTOM NAV ==================== -->
+  <nav class="bottom-nav" id="bottomNav">
+    <a class="nav-item active" data-nav="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Home</span>
+    </a>
+    <a class="nav-item" data-nav="rtp">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17l-5-10-4 6-3-3"/></svg>
+      <span>RTP</span>
+    </a>
+    <a class="nav-item nav-center" data-nav="home">
+      <div class="nav-center-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+    </a>
+    <a class="nav-item" data-nav="help">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span>Ajuda</span>
+    </a>
+    <a class="nav-item" data-nav="terms">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <span>Termos</span>
+    </a>
+  </nav>
+
+  <!-- ==================== AUDIO ==================== -->
+  <audio id="sndClick" preload="auto"></audio>
+  <audio id="sndSignal" preload="auto"></audio>
+  <audio id="sndWin" preload="auto"></audio>
+
+  <!-- Scripts -->
+  <script src="js/sounds.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/games.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/notifications.js"></script>
+</body>
+</html>
