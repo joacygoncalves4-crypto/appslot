@@ -144,7 +144,7 @@ img { max-width: 100%; display: block; }
   margin: 0 12px 8px;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  height: clamp(250px, 50vw, 400px);
+  height: 380px;
   z-index: 1;
   border: 1px solid rgba(196,30,58,0.2);
   box-shadow: 0 4px 30px rgba(196,30,58,0.15);
@@ -165,7 +165,7 @@ img { max-width: 100%; display: block; }
 .hero-carousel .carousel-slide img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .hero-carousel .carousel-slide::after {
