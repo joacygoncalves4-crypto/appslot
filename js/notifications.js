@@ -37,11 +37,20 @@
     const game = available[Math.floor(Math.random() * available.length)];
     notificationHistory.push(game.id);
 
-    const profit = getRandomProfit();
-    const name = getRandomName();
-
     const toastContent = document.getElementById('toastContent');
-    toastContent.innerHTML = `<strong>${name}</strong> faturou <strong>R$ ${profit}</strong> no <strong>${game.name}</strong>`;
+    const toastTitle = document.getElementById('toastTitle');
+    
+    const isAlert = Math.random() > 0.5;
+    
+    if (isAlert) {
+      const rtp = (90 + Math.random() * 9).toFixed(1);
+      toastTitle.textContent = "Notificação - Dica Da Bela";
+      toastContent.innerHTML = `🚨 ALERTA DE RTP ALTO:<br><strong>${game.name}</strong><br>atingiu <strong style="color: #e91e63;">${rtp}%</strong>! 🚀`;
+    } else {
+      const profit = 120 + Math.floor(Math.random() * 450);
+      toastTitle.textContent = "Notificação - Dica Da Bela";
+      toastContent.innerHTML = `Acesse 📈 <strong>${game.name}</strong>! Tá pagando demais, acabei de lucrar R$ ${profit} 🤑`;
+    }
 
     const toast = document.getElementById('toastNotification');
     toast.classList.add('show');
