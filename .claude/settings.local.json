@@ -85,7 +85,10 @@
       "Bash(curl -L -s -o \"big-bass-bonanza.jpeg\" \"$BASE/68975e6d7bf5d.jpeg\")",
       "Bash(curl -L -s -o \"big-bass-bonanza-1000.webp\" \"$BASE/68975e5c0395d.webp\")",
       "Bash(curl -L -s -o \"sugar-rush-1000.jpeg\" \"$BASE/68975e432c9dd.jpeg\")",
-      "Bash(curl -L -s -o \"sugar-rush.jpeg\" \"$BASE/68975e289c2cf.jpeg\")"
+      "Bash(curl -L -s -o \"sugar-rush.jpeg\" \"$BASE/68975e289c2cf.jpeg\")",
+      "WebFetch(domain:vipprime.bet)",
+      "WebSearch",
+      "WebFetch(domain:metaigaming.io)"
     ]
   }
 }
